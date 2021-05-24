@@ -10,6 +10,12 @@ const concat = require('gulp-concat');
 const autoprefixer = require('autoprefixer');
 const postcss = require('gulp-postcss');
 const cssnano = require('cssnano');
+const sourcemaps = require('gulp-sourcemaps');
+
+//Utilidades js
+const terser = require('gulp-terser-js');
+
+//Rutas
 const paths = {
     imagenes: 'src/img/**/*',
     scss: 'src/scss/**/*.scss',
@@ -19,22 +25,25 @@ const paths = {
 //funcion para compilar sass
 function css() {
     return src(paths.scss)
+    .pipe(sourcemaps.init())
         .pipe(sass())
         .pipe(postcss([ autoprefixer(), cssnano()]))
+        .pipe(sourcemaps.write('.'))
         .pipe(dest('./build/css'))
 }
 
-function minificarCSS() {
+/*function minificarCSS() {
     return src(paths.scss)
         .pipe(sass({
             outputStyle: 'compressed'
         }))
         .pipe(dest('./build/css'))
-}
+}*/
 
 function javascript() {
     return src(paths.js)
         .pipe(concat('bundle.js'))
+        .pipe(terser())
         .pipe(dest('./build/js'))
 
 }
@@ -58,7 +67,7 @@ function watchArchivos() {
     watch(paths.js, javascript);
 }
 exports.css = css;
-exports.minificarCSS = minificarCSS;
+//exports.minificarCSS = minificarCSS;
 exports.minificarIMG = minificarIMG;
 exports.watchArchivos = watchArchivos;
 exports.default = series(css, javascript, minificarIMG, versionWebp, watchArchivos); //poner defaukt a un export y uttilizar series nos sirve para compilar varias tareas juntas
