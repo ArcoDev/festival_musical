@@ -370,6 +370,10 @@ h3 {
     @media (min-width: 768px) {
       .header h1 {
         margin-bottom: 0; } }
+  .header.fijo {
+    position: fixed;
+    width: 100%;
+    box-shadow: 0 .3rem .4rem #444; }
 
 .navegacion-principal {
   display: flex;
@@ -495,6 +499,7 @@ h3 {
 .galeria-imagenes {
   padding: 0;
   list-style: none;
+  cursor: pointer;
   margin-top: 5rem;
   display: grid;
   grid-template-columns: repeat(2, 1fr);

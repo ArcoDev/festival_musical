@@ -1,4 +1,4 @@
-//Gulp ituliza sintaxis de node js
+//Gulp utiliza sintaxis de node js
 const { series, src, dest, watch } = require('gulp');
 const sass = require('gulp-sass');
 const imagemin = require('gulp-imagemin');
@@ -6,6 +6,9 @@ const notify = require('gulp-notify');
 const webp = require('gulp-webp');
 const concat = require('gulp-concat');
 
+//Utilidades CSS 
+const autoprefixer = require('autoprefixer');
+const postcss = require('gulp-postcss');
 const paths = {
     imagenes: 'src/img/**/*',
     scss: 'src/scss/**/*.scss',
@@ -24,6 +27,7 @@ function minificarCSS() {
         .pipe(sass({
             outputStyle: 'compressed'
         }))
+        .pipe(postcss(autoprefixer()))
         .pipe(dest('./build/css'))
 }
 

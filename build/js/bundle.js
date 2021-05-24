@@ -1,9 +1,33 @@
-document.addEventListener('DOMContenLoaded', function() {
+document.addEventListener('DOMContentLoaded', function() {
     scrollNav();
+    navFija();
 });
 
 function scrollNav() {
-    const enlaces = document.querySelectorAll('navegacion-principal a');
+    const enlaces = document.querySelectorAll('.navegacion-principal a');
+    enlaces.forEach(function(enlace) {
+        enlace.addEventListener('click', function(e) {
+            e.preventDefault();
+            const seccion = document.querySelector(e.target.attributes.href.value);
+            seccion.scrollIntoView({
+                behavior: 'smooth',
+            });
+        });
+    });
+}
+function navFija() {
+    const barra = document.querySelector('.header');
+    //Registrar el Intersection Observer API
+    const observer = new IntersectionObserver(function (entries) {
+        if(entries[0].isIntersecting) {
+            barra.classList.remove('fijo');
+        } else {
+           barra.classList.add('fijo');
+        }
+    });
+    
+    //Elemnto observar
+    observer.observe(document.querySelector('.sobre-festival'));
 }
 document.addEventListener('DOMContentLoaded', function() {
     crearGaleria();
@@ -14,7 +38,7 @@ function crearGaleria() {
     for (let i = 1; i <= 12; i++) {
         const imagen = document.createElement('IMG');
         imagen.src = `build/img/thumb/${i}.webp`;
-        imagen.dataset.imagenId = i; //esto sirve para agrgar en el html un atributo personalizado
+        imagen.dataset.imagenId = i; //esto sirve para agregar en el html un atributo personalizado
         //añadir la funcion de mostrar imagen
         imagen.onclick = mostrarImagen;
 
@@ -26,7 +50,7 @@ function crearGaleria() {
 
 function mostrarImagen(e) {
     const id = parseInt(e.target.dataset.imagenId);
-    //Generar la image nueva al momento de dar click
+    //Generar la imagen nueva al momento de dar click
     const imagen = document.createElement('IMG');
     imagen.src = `build/img/grande/${id}.webp`;
 
@@ -40,7 +64,7 @@ function mostrarImagen(e) {
     }
 
 
-    //Boton para errar la imagen 
+    //Boton para cerrar la imagen 
     const cerrarImagen = document.createElement('P');
     cerrarImagen.textContent = 'X';
     cerrarImagen.classList.add('btn-cerrar');
