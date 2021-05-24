@@ -9,6 +9,7 @@ const concat = require('gulp-concat');
 //Utilidades CSS 
 const autoprefixer = require('autoprefixer');
 const postcss = require('gulp-postcss');
+const cssnano = require('cssnano');
 const paths = {
     imagenes: 'src/img/**/*',
     scss: 'src/scss/**/*.scss',
@@ -19,6 +20,7 @@ const paths = {
 function css() {
     return src(paths.scss)
         .pipe(sass())
+        .pipe(postcss([ autoprefixer(), cssnano()]))
         .pipe(dest('./build/css'))
 }
 
@@ -27,7 +29,6 @@ function minificarCSS() {
         .pipe(sass({
             outputStyle: 'compressed'
         }))
-        .pipe(postcss(autoprefixer()))
         .pipe(dest('./build/css'))
 }
 
